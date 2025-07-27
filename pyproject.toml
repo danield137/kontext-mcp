@@ -27,6 +27,7 @@ dependencies = [
     "azure-kusto-data>=4.0.0",
     "azure-kusto-ingest>=4.0.0",
     "uuid",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -42,6 +43,12 @@ dev = [
 
 [project.scripts]
 kontext-mcp = "kontext_mcp.server:main"
+
+[tool.setuptools]
+packages = ["kontext_mcp"]
+
+[tool.setuptools.package-data]
+kontext_mcp = ["bin/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
