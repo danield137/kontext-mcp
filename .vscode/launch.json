@@ -1,0 +1,64 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug E2E Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "module": "pytest",
+            "args": [
+                "tests/",
+                "-v",
+                "-m",
+                "e2e",
+                "--no-cov"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug Functional Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "tests/test_kontext_functional.py",
+                "-v",
+                "--no-cov"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Debug All Tests (No E2E)",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "tests/",
+                "-v",
+                "-m",
+                "not e2e",
+                "--no-cov"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "justMyCode": false,
+            "stopOnEntry": false
+        }
+    ]
+}
