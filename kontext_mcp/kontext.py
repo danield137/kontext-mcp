@@ -26,8 +26,8 @@ class KontextProtocol(Protocol):
         """Set up the working tables."""
         ...
 
-    def remember(self, memory: str, type: str) -> str:
-        """Ingest a memory fact into the Kusto database. Returns the ID of the ingested fact."""
+    def remember(self, item: str, type: str, scope: Optional[str] = "global") -> str:
+        """Ingest a memory item into the Kusto database. Returns the ID of the ingested fact."""
 
     def recall(
         self, query: str, filters: Optional[Dict[str, Any]] = None, top_k: Optional[int] = None
@@ -35,7 +35,7 @@ class KontextProtocol(Protocol):
         """Recall facts from the Kusto database based on a query and metadata filters."""
 
 
-MEMORY_TABLE_SCHEMA = "id:string,memory:string,type:string,creation_time:datetime,embedding:dynamic"
+MEMORY_TABLE_SCHEMA = "id:string,item:string,type:string,scope:string,creation_time:datetime,embedding:dynamic"
 
 
 class KontextClient(KontextProtocol):
@@ -141,17 +141,18 @@ class KontextClient(KontextProtocol):
 
         return self._ready
 
-    def remember(self, memory: str, type: str) -> str:
+    def remember(self, item: str, type: str, scope: Optional[str] = "global") -> str:
         try:
             self.setup()
             id = f"fact_{int(time.time())}"
             command = f""".set-or-append {self.config.memory_table} <|
             print
                 id="{id}",
-                memory="{memory}",
+                item="{item}",
                 type="{type}",
+                scope="{scope}",
                 creation_time=now(),
-                embeddings=toscalar(evaluate ai_embeddings("{memory}", "{self.config.embedding_uri}"))
+                embeddings=toscalar(evaluate ai_embeddings("{item}", "{self.config.embedding_uri}"))
             """
 
             self._execute(command, self.config.database)
@@ -176,7 +177,8 @@ class KontextClient(KontextProtocol):
             if filters:
                 if "type" in filters:
                     kql_query += f" | where type == '{filters['type']}'"
-
+                if "scope" in filters:
+                    kql_query += f" | where scope == '{filters['scope']}'"
             results = self._execute(kql_query, self.config.database)
 
             return results

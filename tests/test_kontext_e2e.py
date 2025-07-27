@@ -81,12 +81,12 @@ class TestKontextClientE2E:
 
             if found_memory:
                 # Verify the result has expected fields
-                assert "memory" in found_memory
+                assert "item" in found_memory
                 assert "type" in found_memory
                 assert "sim" in found_memory
 
                 # Verify content matches what we stored
-                assert found_memory["memory"] == test_memory
+                assert found_memory["item"] == test_memory
                 assert found_memory["type"] == test_type
                 assert isinstance(found_memory["sim"], (int, float))
 
@@ -99,17 +99,17 @@ class TestKontextClientE2E:
         try:
             # Create multiple test memories
             memories = [
-                {"memory": "I love dogs", "type": "fact"},
-                {"memory": "I hate snakes", "type": "fact"},
+                {"item": "I love dogs", "type": "fact"},
+                {"item": "I hate snakes", "type": "fact"},
                 {
-                    "memory": "We had a conversation about animals you like and dislike",
+                    "item": "We had a conversation about animals you like and dislike",
                     "type": "checkpoint",
                 },
             ]
 
             # Store all memories
             for memory in memories:
-                ready_kontext_client.remember(memory["memory"], memory["type"])
+                ready_kontext_client.remember(memory["item"], memory["type"])
 
             # Wait for ingestion
             import time
