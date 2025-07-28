@@ -22,16 +22,16 @@ class KontextConfig:
     def from_env(cls) -> KontextConfig:
         """Create configuration from environment variables, with .env file fallback."""
         required_vars = ["KUSTO_CLUSTER", "KUSTO_DATABASE", "EMBEDDING_URI"]
-        
+
         # First attempt to read from environment
         env_values = {var: os.getenv(var) for var in required_vars}
-        
+
         # If any required variables are missing, try loading from .env file
         if not all(env_values.values()):
             load_dotenv(find_dotenv())
             # Re-read after loading .env
             env_values = {var: os.getenv(var) for var in required_vars}
-        
+
         # Check if we still have missing variables
         missing_vars = [var for var, value in env_values.items() if not value]
         if missing_vars:

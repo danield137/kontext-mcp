@@ -12,16 +12,13 @@ from kontext_mcp.logging_util import get_logger
 logger = get_logger(__name__)
 
 
-kontext_client = KontextClient(KontextConfig.from_env())
-
-
 class MemoryType:
     FACT: Literal["fact"] = "fact"
     CONTEXT: Literal["context"] = "context"
     THOUGHT: Literal["thought"] = "thought"
 
 
-def remember(fact: str, type: str, scope: Optional[str] = "global") -> Dict[str, str]:
+def remember(fact: str, type: str, scope: Optional[str] = "global") -> str:
     """
     Stores a memory item in the Kusto-backed memory store.
 
@@ -32,9 +29,8 @@ def remember(fact: str, type: str, scope: Optional[str] = "global") -> Dict[str,
         "thought" - Mental note. Could be something useful to remember, but not a fact, like a plan or idea.
     :param scope: Scope of the memory item. Defaults to "global".
         Useful scopes are project names, object names (e.g. people) or mental groupings (e.g. "work", "personal").
-    :return: {"id": str}
+    :return: id as a string of the ingested fact.
     """
-    fact_id = str(uuid4())
     return kontext_client.remember(fact, type, scope)
 
 

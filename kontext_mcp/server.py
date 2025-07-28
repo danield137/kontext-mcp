@@ -15,9 +15,14 @@ def main():
     logger.info("Starting Kontext MCP server...")
 
     # Create FastMCP instance
-    mcp = FastMCP()
-
-    config = KontextConfig.from_env()
+    mcp = FastMCP(
+        "Kontext MCP Server",
+        instructions="""
+    This server provides tools for remembering and recalling facts.
+    Use the 'remember' tool to store facts, context, or thoughts.
+    Use the 'recall' tool to retrieve relevant memories based on a query.
+    """,
+    )
 
     # Register tools
     register_tools(mcp)
