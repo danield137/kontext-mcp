@@ -71,6 +71,29 @@ Add Kontext to your MCP settings with the following configuration:
 - `KUSTO_TABLE`: Table name for memory storage (default: "Memory")
 - `EMBEDDING_URI`: Azure OpenAI endpoint for embedding generation
 
+## Usage Example
+
+Here's how to incorporate Kontext into your AI workflow by adding instructions to your `.instructions.md` file:
+
+```markdown
+# .instructions.md
+
+- Use the memory mcp (Kontext-mcp) to remember useful information along the way, group the scope by {project_name} (e.g. `scope=my_cool_project`).
+  Examples of memory entries:
+  - **Context**: What is the current state of the project? There should always be one, most up to date. This should be a summarized and distilled snapshot of "up-to-date" information.
+  - **Thoughts**: Things that the user mentions along the way, like: "This feature should be done better, using X or Y, but not right now, because I need to focus on Z first."
+  - **Facts**: Things the use mentions along the way that might be useful later, like: "The project is using a specific package version because of some limitation on the target platform, or because of a bug in the package."
+  Use the memory to enhance the context of the conversation, and to provide more relevant and useful design. 
+- Load context from memory when starting a new conversation, or when the context is not clear.
+- Use the memory when you asked to design or review non-trivial code, or when you are asked to provide a design for a new feature.
+- When finished with a task / session, ask the user whether to store the current context, thoughts, and facts in memory. If so, summarize and distill key points, load previous context, merge them together in a meaningful way, and store them in memory (call `remember()` with the appropriate scope and `type=context`).
+```
+
+This approach ensures your AI agent:
+- Maintains project continuity across conversations
+- Captures and recalls important decisions and constraints
+- Builds a rich knowledge base specific to each project scope
+
 ## Current Features
 
 - **remember**: Store facts with automatic embedding generation using Kusto's `ai_embeddings()` plugin

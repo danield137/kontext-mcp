@@ -6,11 +6,12 @@ build-backend = "hatchling.build"
 name = "kontext-mcp"
 version = "0.1.0"
 description = "Portable, provider-agnostic memory on top of Azure Data Explorer (Kusto)"
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "MIT" }
 authors = [
     { name = "Kontext Team" }
 ]
+keywords = ["mcp", "memory", "ai", "agents", "kusto", "azure", "embeddings"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -20,15 +21,22 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.10"
 dependencies = [
     "mcp>=1.0.0",
     "azure-kusto-data>=4.0.0",
     "azure-kusto-ingest>=4.0.0",
-    "uuid",
     "python-dotenv>=1.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/danield137/kontext-mcp"
+Repository = "https://github.com/danield137/kontext-mcp"
+Issues = "https://github.com/danield137/kontext-mcp/issues"
+Documentation = "https://github.com/danield137/kontext-mcp#readme"
 
 [project.optional-dependencies]
 dev = [
@@ -43,12 +51,6 @@ dev = [
 
 [project.scripts]
 kontext-mcp = "kontext_mcp.server:main"
-
-[tool.setuptools]
-packages = ["kontext_mcp"]
-
-[tool.setuptools.package-data]
-kontext_mcp = ["bin/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -4,7 +4,8 @@
 			"type": "stdio",
 			"command": "uvx",
 			"args": [
-				"."
+				"--no-cache",
+				"kontext-mcp"
 			],
 			"env": {
 				"KUSTO_CLUSTER": "https://danieldror1.swedencentral.dev.kusto.windows.net/",
